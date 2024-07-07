@@ -10,11 +10,11 @@ class Library extends StatefulWidget {
 class _LibraryState extends State<Library> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
+    return const Expanded(
+        child: SizedBox(
       width: double.infinity,
       height: double.infinity,
-      child: const Center(
+      child: Center(
         child: Text('Library Page'),
       ),
     ));

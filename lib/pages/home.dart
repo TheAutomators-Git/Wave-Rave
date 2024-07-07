@@ -4,7 +4,7 @@ import '../api/data.dart';
 import '../models/song.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     _controller.dispose();
-    _debounce?.cancel(); // Cancel the debounce timer
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -43,13 +43,12 @@ class _HomeState extends State<Home> {
 
   void _handleSongTap(String songId) {
     print('Song ID: $songId');
-    // Add your logic for what happens when a song is tapped
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Column(

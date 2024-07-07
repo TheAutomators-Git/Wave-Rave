@@ -37,15 +37,17 @@ class _PanelState extends State<Panel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Column(
         children: [
+          const SizedBox(
+            height: 30,
+          ),
           Expanded(
             child: _getPage(_selectedPage),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
+            child: SizedBox(
               height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -18,7 +18,7 @@ class Song {
       if (input.length <= maxLength) {
         return input;
       } else {
-        return input.substring(0, maxLength - 2) + " ..";
+        return "${input.substring(0, maxLength - 2)} ..";
       }
     }
 

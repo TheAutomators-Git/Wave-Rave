@@ -10,11 +10,11 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
+    return const Expanded(
+        child: SizedBox(
       width: double.infinity,
       height: double.infinity,
-      child: const Center(
+      child: Center(
         child: Text('Search Page'),
       ),
     ));
