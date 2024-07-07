@@ -24,13 +24,13 @@ class _PanelState extends State<Panel> {
   Widget _getPage(Page page) {
     switch (page) {
       case Page.home:
-        return Home();
+        return const Home();
       case Page.search:
-        return Search();
+        return const Search();
       case Page.library:
-        return Library();
+        return const Library();
       default:
-        return Home();
+        return const Home();
     }
   }
 
@@ -38,55 +38,52 @@ class _PanelState extends State<Panel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          children: [
-            _getPage(_selectedPage),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              child: Container(
-                width: double.infinity,
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: IconButton(
-                          icon: const Icon(Icons.home),
-                          onPressed: () => _selectPage(Page.home),
-                        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: _getPage(_selectedPage),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Container(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 50,
+                      child: IconButton(
+                        icon: const Icon(Icons.home),
+                        onPressed: () => _selectPage(Page.home),
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () => _selectPage(Page.search),
-                        ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: SizedBox(
+                      height: 50,
+                      child: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () => _selectPage(Page.search),
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: IconButton(
-                          icon: const Icon(Icons.library_books),
-                          onPressed: () => _selectPage(Page.library),
-                        ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: SizedBox(
+                      height: 50,
+                      child: IconButton(
+                        icon: const Icon(Icons.library_books),
+                        onPressed: () => _selectPage(Page.library),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
