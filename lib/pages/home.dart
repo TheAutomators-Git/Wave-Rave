@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
 
   void _handleSongTap(String songId) {
     print('Song ID: $songId');
+    print('This needs to be Played');
   }
 
   @override
