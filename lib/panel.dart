@@ -40,7 +40,7 @@ class _PanelState extends State<Panel> {
       body: Column(
         children: [
           const SizedBox(
-            height: 30,
+            height: 70,
           ),
           Expanded(
             child: _getPage(_selectedPage),

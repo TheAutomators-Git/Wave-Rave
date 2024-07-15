@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final TextEditingController _controller = TextEditingController();
   List<Song> _songs = [];
+  bool _issearching = false;
   Timer? _debounce;
 
   @override
@@ -34,9 +35,20 @@ class _HomeState extends State<Home> {
   }
 
   void _searchSongs(String searchText) async {
-    final songs = await SongService.getSongs(searchText);
-    if (songs.isEmpty) return;
+    if (searchText.isEmpty) {
+      setState(() {
+        _issearching = false;
+        _songs = [];
+      });
+      return;
+    }
     setState(() {
+      _issearching = true;
+      _songs = [];
+    });
+    final songs = await SongService.getSongs(searchText);
+    setState(() {
+      _issearching = false;
       _songs = songs;
     });
   }
@@ -55,7 +67,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(100, 87, 75, 100),
                 borderRadius: BorderRadius.circular(10),
@@ -72,69 +84,79 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _songs.length,
-                itemBuilder: (context, index) {
-                  final song = _songs[index];
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: TextButton(
-                      onPressed: () => _handleSongTap(song.id),
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                          const Color.fromARGB(100, 87, 75, 100),
-                        ),
-                        padding: WidgetStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
-                        ),
-                        shape: WidgetStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      child: Row(children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            song.image,
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              song.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              song.artist,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ]),
+            _issearching
+                ? const Expanded(
+                    child: Column(
+                      children: [
+                        Spacer(),
+                        CircularProgressIndicator(),
+                        Spacer()
+                      ],
                     ),
-                  );
-                },
-              ),
-            )
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: _songs.length,
+                      itemBuilder: (context, index) {
+                        final song = _songs[index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: TextButton(
+                            onPressed: () => _handleSongTap(song.id),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromARGB(100, 87, 75, 100),
+                              ),
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 15),
+                              ),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            child: Row(children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  song.image,
+                                  width: 55,
+                                  height: 55,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    song.name,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    song.artist,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
           ],
         ),
       ),
